@@ -1,32 +1,13 @@
-include_recipe "git"
+#
+# Cookbook Name:: ruby-install
+# Recipe:: default
+#
+# Copyright (C) 2014 Bloomberg Finance L.P.
+#
+include_recipe 'ark::default'
 
-attributes = node["ruby-install"]
-git_url = attributes["git_url"]
-git_ref = attributes["git_ref"]
-
-install_path = attributes["install_path"]
-unless install_path
-  cache_path = Chef::Config["file_cache_path"]
-  install_path = "#{cache_path}/ruby-install"
-end
-
-directory install_path do
-  recursive true
-  action :create
-end
-
-execute "Install ruby-install" do
-  cwd install_path
-  command %{sudo make install}
-
-  action :nothing
-end
-
-git install_path do
-  repository git_url
-  reference git_ref
-
-  action :sync
-
-  notifies :run, resources(execute: "Install ruby-install"), :immediately
+ark 'ruby-install' do
+  url "#{node['ruby-install']['git_url']}/#{node['ruby-install']['git_ref']}"
+  version node['ruby-install']['git_ref']
+  action :install_with_make
 end

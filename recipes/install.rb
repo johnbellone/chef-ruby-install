@@ -1,20 +1,16 @@
-include_recipe "ruby-install::default"
+#
+# Cookbook Name:: ruby-install
+# Recipe:: install
+#
+# Copyright (C) 2014 Bloomberg Finance L.P.
+#
+include_recipe 'ruby-install::default'
 
-attributes = node["ruby-install"]
-rubies = attributes["rubies"]
-
-rubies.each do |config|
-  ruby_install_ruby config["ruby"] do
-    ruby config["ruby"]
-    install_dir config["install-dir"]
-    user config["user"]
-    group config["group"]
-    gems config["gems"]
-
-    if config["reinstall"]
-      action :reinstall
-    else
-      action :install
-    end
+node['ruby-install']['rubies'].each do |rubie|
+  ruby_install_ruby rubie do
+    install_dir node['ruby-install']['install_dir']
+    user node['ruby-install']['user']
+    group node['ruby-install']['group']
+    gems node['ruby-install']['gems']
   end
 end
