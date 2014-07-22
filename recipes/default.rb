@@ -15,8 +15,8 @@ end
 
 execute "Install ruby-install" do
   cwd install_path
-  command %{sudo make install}
-
+  user 'root'
+  command 'make install'
   action :nothing
 end
 
