@@ -65,6 +65,7 @@ def install_ruby(options = {})
       gem_package gem_config.delete(:name) do
         gem_binary gem_path
         version gem_config.delete(:version)
+        action :upgrade
       end
     end
   end
