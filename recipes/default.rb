@@ -7,6 +7,7 @@
 include_recipe 'ark::default'
 
 ark 'ruby-install' do
+  extension 'tar.gz'
   url "#{node['ruby-install']['git_url']}/#{node['ruby-install']['git_ref']}"
   version node['ruby-install']['git_ref']
   action :install_with_make
